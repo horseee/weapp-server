@@ -221,7 +221,7 @@ def create_User():
     Next_ID = (cur.fetchone())[0]+1
     print("NextID: "+ str(Next_ID))
 
-    url = "https://api.weixin.qq.com/sns/jscode2session?" + "appid=wx4963f019e8e86a05&" + "secret=7474d82965d28cee0e05136c92ea0cb0&" + "grant_type=authorization_code&" + "js_code=" + request.json['LoginCode']
+    url = "https://api.weixin.qq.com/sns/jscode2session?" + "appid=...&" + "secret=...&" + "grant_type=authorization_code&" + "js_code=" + request.json['LoginCode']
     r = requests.get(url)
     openid_str = r.content.decode()
     start_pos = openid_str.find("openid") + 9
