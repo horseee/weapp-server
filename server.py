@@ -24,6 +24,17 @@ def streamwav(name):
             data = fwav.read(1024)
     return Response(generate(), mimetype="audio/mpeg")
 
+@app.route("/ranking", methods = ['GET'])
+def get_ranking():
+    userid = request.args.get('id')
+    user_score_sql = "select Score from User where ID = " + str(userid)
+    cur.execute(user_score_sql)
+    userscore = cur.fetchone()[0]
+    user_score_max_sql = "select * from User where Score > " + str(userscore)
+    bigger_num = cur.execute(user_score_max_sql)
+    return str(bigger_num + 1), 201
+    
+
 @app.route("/search", methods = ['GET'])
 def get_search_result():
     searchword = request.args.get('keyword')
@@ -115,6 +126,12 @@ def get_post_detail():
 @app.route("/contest_number_<question_id>", methods=['GET'])
 def get_contest_number(question_id):
     sql_count_contest = "select * from Contest_1 where top_question = "+ str(question_id)
+    contest_num = cur.execute(sql_count_contest)
+    return str(contest_num), 201
+
+@app.route("/contest_total", methods=['GET'])
+def get_contest_count():
+    sql_count_contest = "select * from Contest_1"
     contest_num = cur.execute(sql_count_contest)
     return str(contest_num), 201
 
